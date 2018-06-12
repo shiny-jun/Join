@@ -1,0 +1,74 @@
+<!--components/addForm/addForm.wxml-->
+<form bindsubmit="formSubmit">
+  <view class='item'>
+    <view class='itemTitle'>活动名称</view>
+    <view class='mas'>
+      <input type='text' placeholder='请输入活动名称' placeholder-class="holder" name="title" value='{{title}}'></input>
+    </view>
+  </view>
+  <view class='item'>
+    <view class='itemTitle'>开始日期</view>
+    <view class='mas'>
+      <picker name="startdate" mode="date" value="{{startdate}}" start="2018-06-01" end="2018-12-01" bindchange="bindstartDateChange">
+        <view class="picker">
+          {{startdate}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class='item'>
+    <view class='itemTitle'>截止日期</view>
+    <view class='mas'>
+      <picker name="deadline" mode="date" value="{{deadline}}" start="2018-06-01" end="2018-12-01" bindchange="binddeadlineChange">
+        <view class="picker">
+          {{deadline}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class='item'>
+    <view class='itemTitle'>主办方</view>
+    <view class='mas'>
+      <input type="text" placeholder="请输主办方" placeholder-class="holder" name="sponsor" value='{{sponsor}}'></input>
+    </view>
+  </view>
+  <view class='item'>
+    <view class='itemTitle'>联系电话</view>
+    <view class='mas'>
+      <input type="text" placeholder="请输入联系人号码" placeholder-class="holder" name="cPhone" value='{{cPhone}}'></input>
+    </view>
+  </view>
+  <view class='item'>
+    <view class='itemTitle'>报名人数</view>
+    <view class='mas'>
+      <input type="text" placeholder="请输入最大报名人数" placeholder-class="holder" name="totalNum" value='{{totalNum}}'></input>
+    </view>
+  </view>
+  <view class='item'>
+    <view class='itemTitle'>活动类型</view>
+    <view class='mas'>
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+        <view class="picker">
+          {{array[index]}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class='item-textarea'>
+    <view class='itemTitle'>活动详情</view>
+    <view class='textarea'>
+      <textarea name="description" auto-height placeholder="请输入活动详情"></textarea>
+    </view>
+  </view>
+  <view wx:for="{{imageShow}}" wx:key="index" class='item-imgs'>
+    <image style="width:150px;height:150px;background-color: #eeeeee;" wx:if="{{item}}" mode='scaleToFill' src="{{imageSrc[index]}}" bindtap="showImgs"/>
+  </view>
+  <view class='item'>
+    <button wx:if="{{imageSrc.length === 0}}" name="photos" type="primary" size="large" bindtap="chooseImgs" hover-class="defaultTap">选择图片</button>
+    <button wx:else name="photos" type="primary" size="large" bindtap="chooseImgs" hover-class="defaultTap">重新选择</button>
+  </view>
+  <view class='item'>
+    <button wx:if="{{choose==='activity'}}" form-type="submit">添加比赛</button>
+    <button wx:else form-type="submit">添加表演</button>
+  </view>
+</form>

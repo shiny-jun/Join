@@ -1,0 +1,21 @@
+<!--pages/me/loved/loved.wxml-->
+<view class='joined'>
+  <currentTab currentTab="{{currentTab}}" navs="{{navs}}">
+    <view slot="lovedActivity">
+       <block wx:for="{{lovedCompetitions}}" wx:key="unique">
+        <view bindtap='goActivity' data-competition='{{item}}'>
+          <activity activity="{{item}}">
+          </activity>
+        </view>
+      </block> 
+    </view>
+    <view slot="lovedTicket">
+      <block wx:for="{{lovedShows}}" wx:key="unique">
+        <view bindtap='goMessage' data-show="{{item}}">
+        <ticket ticket="{{item}}">
+        </ticket>
+        </view>
+      </block>
+    </view>
+  </currentTab>
+</view>

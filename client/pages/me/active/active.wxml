@@ -1,0 +1,33 @@
+<!--pages/home/home.wxml-->
+<currentTab currentTab="{{currentTab}}" navs="{{navs}}">
+  <view slot="activities">
+    <block wx:for="{{activities}}" wx:key="unique">
+      <view class='detail'>
+        <view>
+          <view class='name'>{{item.title}}</view>
+          <view wx:if="{{item.pass}}" class='release'>已发布</view>
+          <view wx:else class='unrelease'>待审核</view>
+        </view>
+        <view>
+          <view class='issuer'>发布人：{{item.builderName}}</view>
+          <view class='joined'>参与人数：<span>{{item.joined}}</span></view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view slot="show">
+    <block wx:for="{{show}}" wx:key="unique">
+      <view class='detail'>
+        <view>
+          <view class='name'>{{item.title}}</view>
+          <!--<view class='release'>最新发布:{{activity.date}}</view>-->
+        </view>
+        <view>
+          <view class='issuer'>发布人：{{item.builderName}}</view>
+          <view class='joined'>参与人数：<span>{{item.joined}}</span></view>
+        </view>
+      </view>
+    </block>
+  </view>
+</currentTab>
+<button class='add' bindtap='add'>+</button>

@@ -1,0 +1,14 @@
+<!--pages/add/add.wxml-->
+<view class='choose' wx:if="{{choose===''}}">
+  <view class='window'>
+    <view class='question'>请选择创建类型</view>
+    <button class='match' bindtap='chooseType' data-type="activity">比赛</button>
+    <button class='show' bindtap='chooseType' data-type='show'>演出</button>
+  </view>
+</view>
+<view class='activity-form' wx:if="{{choose==='activity'}}">
+  <addForm choose="{{choose}}"> </addForm>
+</view>
+<view class='show-from' wx:else>
+  <addForm choose="{{choose}}" ></addForm>
+</view>
