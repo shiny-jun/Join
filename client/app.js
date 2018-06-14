@@ -7,8 +7,8 @@ var config = require('./config')
 App({
   onLaunch: function () {
     qcloud.setLoginUrl(config.service.loginUrl),
-      // 引入 SDK
-      require('utils/sdk-v1.4.0.js')
+    // 引入 SDK
+    require('utils/sdk-v1.4.0.js')
 
     // 初始化 SDK
     let clientID = 'ec1a6e5149b73e1cb766'

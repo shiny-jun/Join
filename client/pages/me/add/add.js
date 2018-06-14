@@ -5,14 +5,59 @@ Page({
    * 页面的初始数据
    */
   data: {
-    choose:''
+    choose:'',
+    passData: {},
+    passDataimg: [],
+    pshowTime: '',
+    pshowTime_time: '',
+    psaletime: '',
+    psaletime_time: '',
+    pstartdate: '',
+    pdeadline: '',
+    type: 2
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    console.log(this.data)
+    let data
+    this.setData({
+      choose: options.type
+    })
+    if(this.data.choose === 'activity'){
+      let data = JSON.parse(options.activity)
+      let pstartdate = data.startDate
+      let pdeadline = data.deadline
+      let type = data.type
+
+      this.setData({
+        passData: JSON.parse(options.activity),
+        passDataimg: JSON.parse(options.passDataimg),
+        pstartdate: pstartdate,
+        pdeadline: pdeadline,
+        type: type
+      })
+      console.log(this.data)
+    }else{
+      data = JSON.parse(options.show)
+      let pshowTime = data.showTime.split(' ')[0],
+          pshowTime_time = data.showTime.split(' ')[1],
+          psaletime = data.saletime.split(' ')[0],
+          psaletime_time = data.saletime.split(' ')[1]
+
+      this.setData({
+        passData: JSON.parse(options.show),
+        passDataimg: JSON.parse(options.passDataimg),
+        pshowTime: pshowTime,
+        pshowTime_time: pshowTime_time,
+        psaletime: psaletime,
+        psaletime_time: psaletime_time
+      })
+
+      console.log(this.data)
+    }
   },
   chooseType(e){
     let type = e.target.dataset.type

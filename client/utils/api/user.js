@@ -83,6 +83,11 @@ function updateUserLove(loveList) {
     updatePrevPage()
   }, err => {
     // err
+    wx.showToast({
+      title: '提交失败',
+      icon: 'none',
+      duration: 1000
+    })
   })
 }
 // 提交表单时更新数据前对各项内容进行判断，连接后台的在上面的updateUser

@@ -31,14 +31,19 @@
       <image src='{{item}}' mode='widthFix' style='width:100%;'></image>
     </view>
   </view>
-  <view class='join'>
-    <button style='color:rgba(255,255,255,0.6)' wx:if="{{show.state==0}}">本活动未开始</button>
-    <view wx:elif="{{joined}}">
-      <view class='tips'>你已参加本活动，如要取消请拨打联系人电话，如要修改资料可在演出前一天前到我的/报名信息内修改，最终报名信息以该表为准。</view>
-      <button style='color:rgba(255,255,255,0.6)'>你已参与本活动</button>
+  <view wx:if="{{show_show}}" class='join'>
+    <view wx:if="{{!login}}">
+      <button style='color:rgb(255,255,255)' bindtap="goLogin">去登录</button>
     </view>
-    <button style='color:rgba(255,255,255,0.6)' wx:elif="{{!joined && show.state==1 && show.full == true}}">本活动名额已满</button> 
-    <button bindtap='ticketFrom' wx:elif="{{!joined && show.state==1 && show.full == false}}">马上抢票</button>
-    <button style='color:rgba(255,255,255,0.6)' wx:else>本活动已结束</button>
+    <view wx:else>
+      <button style='color:rgba(255,255,255,0.6)' wx:if="{{show.state==0}}">本活动未开始</button>
+      <view wx:elif="{{joined}}">
+        <view class='tips'>你已参加本活动，如要取消请拨打联系人电话，如要修改资料可在演出前一天前到我的/报名信息内修改，最终报名信息以该表为准。</view>
+        <button style='color:rgba(255,255,255,0.6)'>你已参与本活动</button>
+      </view>
+      <button style='color:rgba(255,255,255,0.6)' wx:elif="{{!joined && show.state==1 && show.full == true}}">本活动名额已满</button> 
+      <button bindtap='ticketFrom' wx:elif="{{!joined && show.state==1 && show.full == false}}">马上抢票</button>
+      <button style='color:rgba(255,255,255,0.6)' wx:else>本活动已结束</button>
+    </view>
   </view>
 </view>

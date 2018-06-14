@@ -12,6 +12,10 @@
           <view class='issuer'>发布人：{{item.builderName}}</view>
           <view class='joined'>参与人数：<span>{{item.joined}}</span></view>
         </view>
+        <view>
+          <button wx:if="{{!item.pass}}" class='btn' size="mini" bindtap="goActiModify" data-competition='{{item}}'>修改</button>
+          <button class='btn' size="mini" bindtap='goActivity' data-competition='{{item}}'>查看详情</button>
+        </view>
       </view>
     </block>
   </view>
@@ -20,11 +24,16 @@
       <view class='detail'>
         <view>
           <view class='name'>{{item.title}}</view>
-          <!--<view class='release'>最新发布:{{activity.date}}</view>-->
+          <view wx:if="{{item.pass}}" class='release'>已发布</view>
+          <view wx:else class='unrelease'>待审核</view>
         </view>
         <view>
           <view class='issuer'>发布人：{{item.builderName}}</view>
           <view class='joined'>参与人数：<span>{{item.joined}}</span></view>
+        </view>
+        <view>
+          <button wx:if="{{!item.pass}}" class='btn' size="mini" bindtap="goShowModify" data-show='{{item}}'>修改</button>
+          <button class='btn' size="mini" bindtap='goMessage' data-show='{{item}}'>查看详情</button>
         </view>
       </view>
     </block>

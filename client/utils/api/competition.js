@@ -160,7 +160,7 @@ function updateCompetition(competitionId, userID) {
   })
 }
 // 获取100条以内的competitionList，用于搜索时用
-function getAllCompetitionList() {
+function getAllCompetitionList(fn) {
   Product.setQuery(query).limit(100).find().then(res => {
     // success
     let competitions = res.data.objects
@@ -168,6 +168,7 @@ function getAllCompetitionList() {
       competitions[i] = competitionMsgChange(competitions[i])
     }
     wx.setStorageSync('allCompetitions', competitions)
+    fn()
     return competitions
   }, err => {
     // err

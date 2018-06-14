@@ -40,7 +40,10 @@ function getShowList(fn) {
 
 // showList的下拉刷新
 function droploadShowList(offset, fn) {
+  let query = new wx.BaaS.Query()
+  query.compare('pass', '=', true)
   offset = offset * limit
+  console.log(offset)
   Product.setQuery(query).limit(limit).offset(offset).find().then(res => {
     // success
     let moreShows = res.data.objects

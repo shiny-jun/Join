@@ -30,8 +30,19 @@ function getState(startDate, deadDate) {
   return state
 }
 
+function getTime(mydate) {
+  let dt = new Date(mydate)
+  let year = dt.getFullYear()
+  let month = dt.getMonth() + 1
+  let date = dt.getDate()
+  let hour = dt.getHours()
+  let minute = dt.getMinutes() > 10 ? dt.getMinutes() : dt.getMinutes() + '0'
+  return `${year}-${month}-${date} ${hour}:${minute}`
+}
+
 module.exports = {
-  getDate: getDate,
-  getShowTime: getShowTime,
-  getState: getState
+  getDate,
+  getShowTime,
+  getState,
+  getTime
 }

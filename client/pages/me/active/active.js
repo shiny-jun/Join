@@ -1,9 +1,10 @@
 // pages/home/home.js
+import { getDate, getShowTime, getTime } from '../../../utils/api/Date'
+
 let app = getApp()
 const ctableID = 39079
 const stableID = 39080
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -20,7 +21,6 @@ Page({
     activities: [],
     show: []
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -37,11 +37,6 @@ Page({
       // err
     })
   },
-  onReady () {
-    console.log(this.data.activities)
-  },
-  onshow (options) {
-  },
   add() {
     wx.navigateTo({
       url: '../add/add',
@@ -56,21 +51,29 @@ Page({
     let query = new wx.BaaS.Query()
     MyTableObject.setQuery(query.contains('builderOpenId', userId)).find().then(res=>{
       let objects = res.data.objects
-      console.log(objects.length)
-      for(let i=0;i<objects.length;i++){
-        let obj = {
-          builderName: '',
-          title: '',
-          pass: false,
-          joined: ''
-        }
+      console.log(objects)
+      let len = objects.length
+      for(let i=0;i<len;i++){
+        let obj = { pass: false }
 
-        let { builderName, title, pass, userIds } = objects[i]
-
-        obj.builderName = builderName
+        let { id , builderName, title, pass, cPhone, startDate, deadline, detail, sponser, type} = objects[i]
+        let userIds = objects[i].userIds || []
+        let posters = objects[i].posters || []
+        let totalNum = objects[i].totalPeople
+        obj.id = id
         obj.title = title
+        obj.startDate = getTime(startDate).split(' ')[0]
+        obj.deadline = getTime(deadline).split(' ')[0]
+        obj.sponser = sponser
+        obj.builderName = builderName
         obj.joined = userIds.length
         obj.pass = pass
+        obj.cPhone = cPhone
+        obj.posters = posters
+        obj.detail = detail
+        obj.totalNum = totalNum
+        obj.type = type
+        obj.show = false
 
         console.log(obj)
 
@@ -85,27 +88,6 @@ Page({
 
       wx.hideLoading()
 
-      // Array.from(objects).forEach((item,index) => {
-
-      //   let obj = {
-      //     builderName:'',
-      //     title: '',
-      //     startDate: '',
-      //     joined: ''
-      //   }
-
-      //   let { builderName, title, startDate, userIds } = item
-
-      //   obj.builderName = builderName
-      //   obj.title = title
-      //   obj.joined = userIds.length
-
-      //   console.log(obj)
-
-      //   that.activities[index] = obj
-
-      //   console.log(1,that.activities)
-      // })
     },err=>{
       console.log(err)
     })
@@ -114,21 +96,27 @@ Page({
       let objects = res.data.objects
       console.log(objects.length)
       for (let i = 0; i < objects.length; i++) {
-        let obj = {
-          builderName: '',
-          title: '',
-          pass: false,
-          joined: ''
-        }
+        let obj = { pass: false }
 
-        let { builderName, title, startDate, userIds } = objects[i]
-
+        let { id, builderName, title, pass, cPhone, showTime, saletime, detail } = objects[i]
+        let userIds = objects[i].userIds || []
+        let posters = objects[i].posters || []
+        let totalNum = objects[i].totalPeople
+        obj.id = id
+        obj.title = title
+        obj.showTime = getTime(showTime)
+        obj.saletime = getTime(saletime)
         obj.builderName = builderName
         obj.title = title
         obj.joined = userIds.length
         obj.pass = pass
-
-        console.log(obj, this)
+        obj.cPhone = cPhone
+        obj.posters = posters
+        obj.detail = detail
+        obj.totalNum = totalNum
+        obj.show = false
+        
+        console.log(obj)
 
         this.data.show[i] = obj
 
@@ -141,6 +129,61 @@ Page({
 
     }, err => {
       console.log(err)
+    })
+
+    wx.setStorage({
+      key: 'activities',
+      value: that.data.activities
+    })
+
+    wx.setStorage({
+      key: 'show',
+      value: that.data.show
+    })
+  },
+  goActivity(e) {
+    let competition = e.currentTarget.dataset.competition
+    // 转化为json
+    competition = JSON.stringify(competition)
+    wx.navigateTo({
+      url: '../../activity/activity?competition=' + competition
+    })
+  },
+  goMessage(e) {
+    let show = e.currentTarget.dataset.show
+    // 转化为json
+    show = JSON.stringify(show)
+    wx.navigateTo({
+      url: '../../ticket/ticketMessage/ticketMessage?show=' + show,
+    })
+  },
+  goActiModify (e) {
+
+    let data = e.currentTarget.dataset
+    let type = 'activity'
+    data.competition.modify = true
+    console.log(data)
+
+    wx.navigateTo({
+      url: '../add/add?type=' + type + '&activity=' + JSON.stringify(data.competition) + '&passDataimg=' + JSON.stringify(data.competition.posters)
+    })
+  },
+  goShowModify (e) {
+    let data = e.currentTarget.dataset
+    let type = 'show'
+    data.show.modify = true
+    console.log(data)
+
+    wx.navigateTo({
+      url: '../add/add?type=' + type + '&show=' + JSON.stringify(data.show) + '&passDataimg=' + JSON.stringify(data.show.posters)
+    })
+
+  },
+  tips() {
+    wx.showToast({
+      title: '持续完善中...',
+      icon: 'none',
+      duration: 1000
     })
   }
 })

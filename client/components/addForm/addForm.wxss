@@ -28,7 +28,6 @@
   display: inline-block;
   width: 43%;
   margin: 20rpx 20rpx;
-  border: 1rpx solid #ccc;
   height: 300rpx;
 }
 

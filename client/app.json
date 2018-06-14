@@ -6,8 +6,6 @@
     "pages/list/list",
     "pages/activity/activity",
     "pages/applyForm/applyForm",
-    "pages/index/index",
-    "pages/addCgi/addCgi",
     "pages/me/changeMessage/changeMessage",
     "pages/me/joined/joined",
     "pages/me/loved/loved",

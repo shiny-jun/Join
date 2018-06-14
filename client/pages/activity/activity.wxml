@@ -22,23 +22,24 @@
   <view class='detail'>
     <view class='title'>活动详情</view>
     <view class='text'>{{competition.detail}}</view>
-    <!-- <view class='title'>报名二维码</view>
-    <view class='QRcode'>
-      <image src='../../images/icon/QRcode.png' style='width:300rpx;height:300rpx;'></image>
-    </view> -->
     <view class='title'>活动海报/传单</view>
     <view class='img' wx:for="{{competition.posters}}" wx:key="unique">
       <image src='{{item}}' mode='widthFix' style='width:100%;'></image>
     </view>
   </view>
-  <view class='join'>
-    <button style='color:rgba(255,255,255,0.6)' wx:if="{{competition.state==0}}">本活动未开始</button>
-    <view wx:elif="{{joined}}">
-    <view class='tips' >你已参加本活动，如要取消请拨打联系人电话，如要修改资料可在活动报名时间结束前到我的/报名信息内修改，最终报名信息以该表为准。</view>
-    <button style='color:rgba(255,255,255,0.6)'>你已参与本活动</button>
+  <view wx:if="{{show}}" class='join'>
+    <view wx:if="{{!login}}">
+      <button style='color:rgb(255,255,255)' bindtap="goLogin">去登录</button>
     </view>
-    <button style='color:rgba(255,255,255,0.6)' wx:elif="{{!joined && competition.state==1 && competition.full == true}}">本活动名额已满</button>   
-    <button bindtap='applyFrom' wx:elif="{{!joined && competition.state==1 && competition.full == false}}">马上报名</button>
-    <button style='color:rgba(255,255,255,0.6)' wx:else>本活动已结束</button>
+    <view wx:else>
+      <button style='color:rgba(255,255,255,0.6)' wx:if="{{competition.state==0}}">本活动未开始</button>
+      <view wx:elif="{{joined}}">
+      <view class='tips' >你已参加本活动，如要取消请拨打联系人电话，如要修改资料可在活动报名时间结束前到我的/报名信息内修改，最终报名信息以该表为准。</view>
+      <button style='color:rgba(255,255,255,0.6)'>你已参与本活动</button>
+      </view>
+      <button style='color:rgba(255,255,255,0.6)' wx:elif="{{!joined && competition.state==1 && competition.full == true}}">本活动名额已满</button>
+      <button bindtap='applyFrom' wx:elif="{{!joined && competition.state==1 && competition.full == false}}">马上报名</button>
+      <button style='color:rgba(255,255,255,0.6)' wx:else>本活动已结束</button>
+    </view>
   </view>
 </view>

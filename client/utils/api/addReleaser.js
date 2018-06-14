@@ -5,10 +5,19 @@ let Product = new wx.BaaS.TableObject(tableID)
 let product = Product.create()
 
 function releaserIdentity (data) {
+  let that = this
   product.set(data).save().then(res=>{
     console.log(res)
-    return res.data
-  },err=>{
+    wx.showToast({
+      title: '提交成功。',
+      duration: 1000,
+      success () {
+        wx.navigateBack({
+          detal: 1
+        })
+      }
+    })
+  },err => {
     wx.showToast({
       title: '提交失败',
       icon: 'none',
@@ -17,23 +26,23 @@ function releaserIdentity (data) {
   })
 }
 
-function getReleaserInfo(user_id) {
-
-  // 此处created_by字段对应该用户的唯一id
+// ---------------------------------------
+// ----------- 此函数未写好 ——--------------
+// ---------------------------------------
+function getReleaserInfo(user_id,fn,fn2) {
+    // 此处created_by字段对应该用户的唯一id
   Product.setQuery(query.contains('user_id', user_id)).find().then(res => {
     // success
-    console.log(res)
-
-    return res.data.objects.length>0
-
+    let flag = (res.data.objects.length > 0)
+    if(!flag){
+      fn()
+    }else{
+      fn2()
+    }
   }, err => {
     // err
-    console.log('查询失败。')
+    console.log(err,'查询失败。')
   })
-}
-
-function p_rightConfirm () {
-
 }
 
 module.exports = {

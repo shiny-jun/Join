@@ -1,5 +1,5 @@
 // pages/home/home.js
-import { getCompetitionList, droploadCompetitionList ,getAllCompetitionList} from '../../utils/api/competition.js'
+import { getCompetitionList, droploadCompetitionList, getAllCompetitionList } from '../../utils/api/competition.js'
 import { getSwiperUrlsList } from '../../utils/api/swiperUrls.js'
 let offset = 0
 var app = getApp();
@@ -31,10 +31,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showShareMenu(); 
+    wx.showLoading({
+      title: '奋力加载中'
+    })
+    wx.showShareMenu();
     this.getCompetitionList()
     this.getSwiperUrlsList()
-    getAllCompetitionList()
+    getAllCompetitionList((() => {
+      wx.hideLoading()
+    }))
     // 获取所有表演
     offset = 0
   },
@@ -43,6 +48,9 @@ Page({
  */
   onPullDownRefresh: function () {
     this.onLoad()
+    this.setData({
+      nomore: false
+    })
     wx.stopPullDownRefresh()
   },
 
@@ -50,23 +58,26 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    wx.showLoading({
-      title: '玩命加载中',
-    })
-    offset++
-    droploadCompetitionList(offset, (nomore, competitions) => {
-      console.log(nomore)
-      if (nomore) {
-        this.setData({
-          nomore: nomore
-        })
-      } else {
-        this.setData({
-          competitions: competitions
-        })
-      }
-      wx.hideLoading();
-    })
+    let nomore = this.data.nomore
+    if (!nomore) {
+      wx.showLoading({
+        title: '玩命加载中',
+      })
+      offset++
+      droploadCompetitionList(offset, (nomore, competitions) => {
+        console.log(nomore)
+        if (nomore) {
+          this.setData({
+            nomore: nomore
+          })
+        } else {
+          this.setData({
+            competitions: competitions
+          })
+        }
+        wx.hideLoading();
+      })
+    }
   },
   // 分享当前页
   onShareAppMessage: (res) => {

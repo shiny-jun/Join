@@ -20,6 +20,12 @@ button[class="add"]::after {
   border: 0;
 }
 
+.btn{
+  color: #fff;
+  background: #99ccb6;
+  flex: 1;
+  margin: 20rpx;
+}
 
 .detail{
   padding: 20rpx 0;

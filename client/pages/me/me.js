@@ -12,7 +12,6 @@ Page({
     couponsCount: 0,
     hasUserInfo: false,
     identify: false
-
   },
 
   /**
@@ -34,6 +33,16 @@ Page({
     if (hasUserInfo){
       getUserInfo()
     }
+
+    // me页面初始化,判断是否提交过身份认真申请。
+    wx.getStorage({
+      key: 'user',
+      success(res) {
+        _this.setData({
+          identify: res.data.publishing_right
+        })
+      }
+    })
   },
   userInfoHandler(data) {
     let _this = this
@@ -51,8 +60,12 @@ Page({
     })
   },
   changeMessage(){
-    wx.navigateTo({
+    app.globalData.login ? wx.navigateTo({
       url: './changeMessage/changeMessage',
+    }) : wx.showToast({
+      title: '请先登录',
+      icon: 'none',
+      duration: 1000
     })
   },
   goJoined(e){
@@ -69,53 +82,94 @@ Page({
   },
   // 跳转发布活动/演出页
   publish() {
-    wx.getStorage({
-      key: 'user',
-      success(res) {
-        if (res.data.publishing_right) {
-          wx.navigateTo({
-            url: './active/active'
-          })
-        } else {
-          let MyUser = new wx.BaaS.User()
-          MyUser.get(app.globalData.userId).then(res => {
-            // success
-            // console.log(res.data)
-            wx.setStorageSync('user', res.data)
+    if (app.globalData.login) {
+      wx.getStorage({
+        key: 'user',
+        success(res) {
+          if (res.data.publishing_right) {
             wx.navigateTo({
               url: './active/active'
             })
-          }, err => {
-            wx.showToast({
-              title: '你暂无此权利',
-              icon: 'none',
-              duration: 1000
+          } else {
+            let MyUser = new wx.BaaS.User()
+            MyUser.get(app.globalData.userId).then(res => {
+              // success
+              // console.log(res.data)
+              wx.setStorageSync('user', res.data)
+              wx.navigateTo({
+                url: './active/active'
+              })
+            }, err => {
+              wx.showToast({
+                title: '你暂无此权利',
+                icon: 'none',
+                duration: 1000
+              })
+              // err
             })
-            // err
+          }
+        },
+        fail () {
+          wx.showToast({
+            title: '请先登录',
+            icon: 'none',
+            duration: 1000
           })
         }
-      }
-    })
+      })
+    }else{
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        duration: 1000
+      })
+    }
   },
   identify() {
-    wx.getStorage({
-      key: 'user',
-      success: function (res) {
-        let id = res.data.id.toString()
+    let _this = this
+    if(app.globalData.login){
+      wx.getStorage({
+        key: 'user',
+        success: function (res) {
 
-        if (!getReleaserInfo(id)) {
-          wx.navigateTo({
-            url: './identification/identification'
-          })
-        } else {
+          let id = res.data.id.toString()
+
+          let fn = () => {
+            wx.navigateTo({
+              url: './identification/identification'
+            })
+          }
+
+          let fn2 = () => {
+
+            _this.setData({
+              identify: true
+            })
+
+            wx.showToast({
+              title: '您已提交认证申请。',
+              icon: 'none',
+              duration: 1500
+            })
+          }
+
+          getReleaserInfo(id, fn, fn2)
+        },
+        fail() {
           wx.showToast({
-            title: '你已经提交过申请。',
+            title: '请先登录',
             icon: 'none',
-            duration: 500
+            duration: 1000
           })
         }
-      }
-    })
+      })
+    }else{
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        duration: 1000
+      })
+    }
   },
   tips(){
     wx.showToast({

@@ -2,6 +2,7 @@
 import { changeLove } from '../../utils/api/user.js'
 import { getJoined } from '../../utils/api/Joined.js'
 let _competition = {}
+let app = getApp()
 Page({
 
   /**
@@ -10,23 +11,38 @@ Page({
   data: {
     competition: {},
     loved: false,
-    joined:false
+    joined:false,
+    show: true,
+    login: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)    
-    let competition = JSON.parse(options.competition);
+    // if(app.globalData.login){
+    
+    let competition = JSON.parse(options.competition)
     let joined = getJoined(competition.userIds)
-    _competition = competition
+    let login = app.globalData.login
+
     this.setData({
       competition: competition,
       loved: competition.loved,
-      joined: joined
+      joined: joined,
+      login: login
     })
-    wx.showShareMenu(); 
+
+    console.log(this.data)
+
+    if(competition.show === false){
+      this.setData({
+        show: competition.show
+      })
+    }
+
+    wx.showShareMenu()
+    // }
   },
   onShareAppMessage: (res) => {
     // 转化为json   
@@ -44,19 +60,32 @@ Page({
     }
   },
   changeLove() {
-    let competition = this.data.competition
-    let love = !this.data.loved
-    this.setData({
-      loved: love
-    })
-    let id = competition.id
-    changeLove(love,'competition',id)
+    if(this.data.login){
+      let competition = this.data.competition
+      let love = !this.data.loved
+      this.setData({
+        loved: love
+      })
+      let id = competition.id
+      changeLove(love, 'competition', id)
+    }else{
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        duration: 1000
+      })
+    }
   },
   applyFrom() {
     let type = 'activity'
     let id = this.data.competition.id
     wx.navigateTo({
       url: '../applyForm/applyForm?type=' + type + '&id=' + id,
+    })
+  },
+  goLogin () {
+    wx.switchTab({
+      url: '/pages/me/me'
     })
   }
 })

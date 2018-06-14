@@ -12,24 +12,10 @@ Page({
       key: 'user',
       success: function (res) {
         let id = res.data.id.toString()
-
-        console.log(formData)
-
-        if (getReleaserInfo(id)) {
-          formData.user_id = id
-          
-          console.log(formData)
-
-          let resData = releaserIdentity(formData)
-
-          console.log(resData)
-        }else{
-          wx.showToast({
-            title: '你已经提交过申请。',
-            icon: 'none',
-            duration: 500
-          })
-        }
+        formData.user_id = id
+        let rl = (formData) => releaserIdentity(formData)
+        console.log(id,formData)
+        getReleaserInfo(id, rl(formData))
       }
     })
     
