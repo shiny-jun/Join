@@ -20,7 +20,8 @@ function showMsgChange(show) {
 
 // 获取showList
 function getShowList(fn) {
-  // 不设置查询条件
+  let query = new wx.BaaS.Query()
+  query.compare('pass', '=', true)
   Product.setQuery(query).limit(limit).find().then(res => {
     // success
     let shows = res.data.objects
