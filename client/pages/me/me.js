@@ -82,10 +82,19 @@ Page({
   },
   // 跳转发布活动/演出页
   publish() {
-    if (app.globalData.login) {
-      wx.getStorage({
-        key: 'user',
-        success(res) {
+    let name
+    wx.getStorage({
+      key: 'user',
+      success (res) {
+        name = res.data.name
+        console.log(!name)
+        if (!name) {
+          wx.showToast({
+            title: '请先完善个人信息',
+            icon: 'none',
+            duration: 1000
+          })
+        }else if (app.globalData.login) {
           if (res.data.publishing_right) {
             wx.navigateTo({
               url: './active/active'
@@ -94,11 +103,19 @@ Page({
             let MyUser = new wx.BaaS.User()
             MyUser.get(app.globalData.userId).then(res => {
               // success
-              // console.log(res.data)
+              console.log(res.data)
               wx.setStorageSync('user', res.data)
-              wx.navigateTo({
-                url: './active/active'
-              })
+              if (res.data.publishing_right) {
+                wx.navigateTo({
+                  url: './active/active'
+                })
+              } else {
+                wx.showToast({
+                  title: '你暂无此权利',
+                  icon: 'none',
+                  duration: 1000
+                })
+              }
             }, err => {
               wx.showToast({
                 title: '你暂无此权利',
@@ -108,22 +125,73 @@ Page({
               // err
             })
           }
-        },
-        fail () {
+        }else{
           wx.showToast({
             title: '请先登录',
             icon: 'none',
             duration: 1000
           })
         }
-      })
-    }else{
-      wx.showToast({
-        title: '请先登录',
-        icon: 'none',
-        duration: 1000
-      })
-    }
+      },
+      fail () {
+        wx.showToast({
+          title:'请先登录.',
+          icon: 'none',
+          duration: 500
+        })
+      }
+    })
+
+    // if (app.globalData.login) {
+    //   wx.getStorage({
+    //     key: 'user',
+    //     success(res) {
+    //       if (res.data.publishing_right) {
+    //         wx.navigateTo({
+    //           url: './active/active'
+    //         })
+    //       } else {
+    //         let MyUser = new wx.BaaS.User()
+    //         MyUser.get(app.globalData.userId).then(res => {
+    //           // success
+    //           console.log(res.data)
+    //           wx.setStorageSync('user', res.data)
+    //           if (res.data.publishing_right){
+    //             wx.navigateTo({
+    //               url: './active/active'
+    //             })
+    //           }else{
+    //             wx.showToast({
+    //               title: '你暂无此权利',
+    //               icon: 'none',
+    //               duration: 1000
+    //             })
+    //           }
+    //         }, err => {
+    //           wx.showToast({
+    //             title: '你暂无此权利',
+    //             icon: 'none',
+    //             duration: 1000
+    //           })
+    //           // err
+    //         })
+    //       }
+    //     },
+    //     fail () {
+    //       wx.showToast({
+    //         title: '请先登录',
+    //         icon: 'none',
+    //         duration: 1000
+    //       })
+    //     }
+    //   })
+    // }else{
+    //   wx.showToast({
+    //     title: '请先登录',
+    //     icon: 'none',
+    //     duration: 1000
+    //   })
+    // }
   },
   identify() {
     let _this = this

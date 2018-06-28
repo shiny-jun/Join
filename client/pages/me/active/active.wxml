@@ -9,8 +9,9 @@
           <view wx:else class='unrelease'>待审核</view>
         </view>
         <view>
-          <view class='issuer'>发布人：{{item.builderName}}</view>
-          <view class='joined'>参与人数：<span>{{item.joined}}</span></view>
+          <!--<view class='issuer'>发布人：{{item.builderName}}</view>-->
+          <view class='issuer'>类型:{{arr[item.type]}}</view>
+          <view class='joined'>参与人数:<span>{{item.joined}}</span></view>
         </view>
         <view>
           <button wx:if="{{!item.pass}}" class='btn' size="mini" bindtap="goActiModify" data-competition='{{item}}'>修改</button>

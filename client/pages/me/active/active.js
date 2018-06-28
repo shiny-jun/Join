@@ -19,7 +19,8 @@ Page({
       }
     ],
     activities: [],
-    show: []
+    show: [],
+    arr: ['竞赛类', '艺术类', '体育类']
   },
   /**
    * 生命周期函数--监听页面加载
@@ -116,8 +117,6 @@ Page({
         obj.totalNum = totalNum
         obj.show = false
         
-        console.log(obj)
-
         this.data.show[i] = obj
 
         console.log(this.data.show)

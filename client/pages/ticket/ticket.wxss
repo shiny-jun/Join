@@ -51,7 +51,7 @@
   font-size: 30rpx;
   color: #707070;
 }
-.nomore{
+.nomore,.show-null{
   font-size: 34rpx;
   color: #707070;
   padding: 20rpx 0;

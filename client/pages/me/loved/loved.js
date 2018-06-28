@@ -1,5 +1,5 @@
 // pages/me/loved/loved.js
-import { getLovedCompetitionList, getLovedShowList} from '../../../utils/api/love.js'
+import { getLovedCompetitionList, getLovedShowList } from '../../../utils/api/love.js'
 Page({
 
   /**
@@ -22,16 +22,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onShow: function (options) {
-    console.log('here')
     getLovedCompetitionList((lovedCompetitions) => {
-      this.setData({
-        lovedCompetitions: lovedCompetitions
-      })
+      if (lovedCompetitions) {
+        this.setData({
+          lovedCompetitions: lovedCompetitions
+        })
+      } else {
+        this.setData({
+          showCompetitionsNull: true
+        })
+      }
     })
     getLovedShowList((lovedShows) => {
-      this.setData({
-        lovedShows: lovedShows
-      })
+      console.log(lovedShows)
+      if (lovedShows) {
+        this.setData({
+          lovedShows: lovedShows
+        })
+      } else {
+        this.setData({
+          showShowsNull: true
+        })
+      }
     })
   },
   goActivity(e) {

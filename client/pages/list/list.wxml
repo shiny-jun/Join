@@ -38,5 +38,6 @@
       </activity>
         </view>
       </block> 
+      <view wx:if="{{showNull}}" class='show-null'>查无结果</view>
   </view>
 </view>

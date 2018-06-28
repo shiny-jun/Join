@@ -5,7 +5,7 @@ let query = new wx.BaaS.Query()
 query.compare('pass', '=', true)
 let tableID = 39080
 let Product = new wx.BaaS.TableObject(tableID)
-let limit = 3
+let limit = 5
 
 // 获取showList后对其信息进行计算
 function showMsgChange(show) {
@@ -115,15 +115,20 @@ function updateShow(showId, userID) {
   })
 }
 
-// 获取100条以内的showList，用于搜索时用
-function getAllShowList() {
-  Product.setQuery(query).limit(100).find().then(res => {
+function searchShowsList(search, fn) {
+  let query = new wx.BaaS.Query()
+  // 用于校验pass是否为true
+  query.compare('pass', '=', true)
+  query.contains('title', search)
+  Product.setQuery(query).find().then(res => {
     // success
     let shows = res.data.objects
     for (let i in shows) {
       shows[i] = showMsgChange(shows[i])
     }
-    wx.setStorageSync('allShows', shows)
+    if (fn) {
+      fn(shows)
+    }
     return shows
   }, err => {
     // err
@@ -136,5 +141,5 @@ module.exports = {
   getHotList: getHotList,
   updateShow: updateShow,
   droploadShowList: droploadShowList,
-  getAllShowList: getAllShowList
+  searchShowsList: searchShowsList
 }

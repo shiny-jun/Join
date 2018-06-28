@@ -1,5 +1,5 @@
 // pages/list/list.js
-import { getTypeList, getCompetitionList, droploadtypeList} from '../../utils/api/competition.js'
+import { getTypeList, getCompetitionList, droploadtypeList, searchCompetitionList } from '../../utils/api/competition.js'
 let offset = 0
 var app = getApp();
 Page({
@@ -59,7 +59,7 @@ Page({
     offset++
     droploadtypeList(offset, type, (nomore, competitions) => {
       console.log(nomore)
-      if(type === 0){
+      if (type === 0) {
         if (nomore) {
           this.setData({
             nomore0: nomore
@@ -90,7 +90,7 @@ Page({
           })
         }
       }
-      
+
       wx.hideLoading();
     })
   },
@@ -137,21 +137,21 @@ Page({
       this.setData({
         currentTabShow: false,
       })
+      searchCompetitionList(e.detail, (arr) => {
+        if (arr) {
+          if (arr.length != 0) {
+            this.setData({ competitions: arr,showNull: false });
+          } else {
+            this.setData({ competitions: arr,showNull: true });
+          }
+        } else{
+          this.setData({ competitions: arr,showNull: true });
+        }
+      })
     } else {
       this.setData({
         currentTabShow: true,
       })
     }
-    console.log(e.detail + "本函数在list")
-    let title = e.detail
-    let competitions = wx.getStorageSync('allCompetitions')
-    var arr = []
-    for (var i = 0; i < competitions.length; i++) {
-      var m = competitions[i];
-      if (m.title.indexOf(title) > -1) {
-        arr.push(m);
-      }
-    }
-    this.setData({ competitions: arr });
   }
 })

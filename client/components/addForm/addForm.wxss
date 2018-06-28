@@ -11,6 +11,7 @@
 }
 
 .item-textarea{
+  position: relative;
   min-height: 120rpx;
   line-height: 120rpx;
   align-items: center;
@@ -20,6 +21,7 @@
   padding: 20rpx 0;
   border-bottom: 1rpx solid #ccc;
   display: flex;
+  vertical-align: middle;
   flex-direction: row;
   overflow: auto;
 }
@@ -47,7 +49,10 @@
   line-height: 40rpx;
 }
 .textarea{
+  display: inline-block;
   width: 80%;
+  line-height: 50rpx;
+  vertical-align: middle;
 }
 .item button {
   width: 100%;

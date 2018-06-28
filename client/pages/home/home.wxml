@@ -4,7 +4,7 @@
   <swiper indicator-dots='{{indicatorDots}}' autoplay='{{autoplay}}' interval='{{interval}}' duration='{{duration}}'>
     <block wx:for="{{swiperUrls}}" wx:key="unique">
       <swiper-item>
-        <image src='{{item.image}}' class='silde-image'></image>
+        <image src='{{item.image}}' class='silde-image' bindtap='swiperActivity' data-competitionId='{{item.competitionId}}'></image>
       </swiper-item>
     </block>
   </swiper>

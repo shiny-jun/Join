@@ -1,5 +1,5 @@
 // pages/ticket/ticket.js
-import { getShowList, getHotList, droploadShowList, getAllShowList } from '../../utils/api/show.js'
+import { getShowList, getHotList, droploadShowList, searchShowsList } from '../../utils/api/show.js'
 let offset = 0;
 
 Page({
@@ -22,7 +22,6 @@ Page({
     // 显示分享按钮
     wx.showShareMenu();
     this.getShowList()
-    getAllShowList()
     offset = 0
   },
   /**
@@ -106,21 +105,21 @@ Page({
       this.setData({
         show: false,
       })
+      searchShowsList(e.detail, (arr) => {
+        if (arr) {
+          if (arr.length != 0) {
+            this.setData({ searchShows: arr, showNull: false });
+          } else {
+            this.setData({ searchShows: arr, showNull: true });
+          }
+        } else {
+          this.setData({ searchShows: arr, showNull: true });
+        }
+      })
     } else {
       this.setData({
         show: true,
       })
     }
-    console.log(e.detail + "本函数在list")
-    let title = e.detail
-    let shows = wx.getStorageSync('allShows')
-    var arr = []
-    for (var i = 0; i < shows.length; i++) {
-      var m = shows[i];
-      if (m.title.indexOf(title) > -1) {
-        arr.push(m);
-      }
-    }
-    this.setData({ searchShows: arr });
   }
 })

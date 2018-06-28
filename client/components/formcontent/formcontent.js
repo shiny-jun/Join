@@ -25,20 +25,17 @@ Component({
         {
           name: {
             required: true,
-            minlength: 2,
-            maxlength: 5,
+            name: true
           },
           stuNum: {
             required: true,
             digits: true,
-            minlength: 5,
-            maxlength: 15,
+            name: true
           },
           classNum: {
             required: true,
             digits: true,
-            minlength: 4,
-            maxlength: 10,
+            name: true
           },
           phoneNum: {
             required: true,
@@ -54,12 +51,15 @@ Component({
         , {
           name: {
             required: '请填输入您的姓名',
+            name: '姓名至少两个字'
           },
           stuNum: {
             required: '请输入学号',
+            name: '学号至少两位数'
           },
           classNum: {
             required: '请输入班级号码',
+            name: '班级号至少输入两位数'
           },
           phoneNum: {
             required: '请填输入手机号',
@@ -72,6 +72,11 @@ Component({
           }
         }
       )
+
+      // 自定义验证规则
+      this.WxValidate.addMethod('name', (value, param) => {
+        return (value.length >= 2)
+      }, 'submit Fail.')
     },
     formSubmit: function (e) {
       this.validate()

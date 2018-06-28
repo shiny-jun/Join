@@ -33,8 +33,8 @@ function getState(startDate, deadDate) {
 function getTime(mydate) {
   let dt = new Date(mydate)
   let year = dt.getFullYear()
-  let month = dt.getMonth() + 1
-  let date = dt.getDate()
+  let month = dt.getMonth() + 1 > 10 ? dt.getMonth() + 1 : '0' + (dt.getMonth() + 1)
+  let date = dt.getDate() > 10 ? dt.getDate() : '0' + dt.getDate()
   let hour = dt.getHours()
   let minute = dt.getMinutes() > 10 ? dt.getMinutes() : dt.getMinutes() + '0'
   return `${year}-${month}-${date} ${hour}:${minute}`

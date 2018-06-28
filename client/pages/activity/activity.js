@@ -60,7 +60,7 @@ Page({
     }
   },
   changeLove() {
-    if(this.data.login){
+    if (app.globalData.login){
       let competition = this.data.competition
       let love = !this.data.loved
       this.setData({

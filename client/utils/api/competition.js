@@ -7,7 +7,7 @@ query.compare('pass', '=', true)
 let tableID = 39079
 let Product = new wx.BaaS.TableObject(tableID)
 // limit设置一次加载多少个数据
-let limit = 3
+let limit = 5
 
 // 获取competitionList后对其信息进行计算
 function competitionMsgChange(competition) {
@@ -159,16 +159,34 @@ function updateCompetition(competitionId, userID) {
     // err
   })
 }
-// 获取100条以内的competitionList，用于搜索时用
-function getAllCompetitionList(fn) {
-  Product.setQuery(query).limit(100).find().then(res => {
+
+function getSwiperActivity(competitionId, fn) {
+  Product.get(competitionId).then(res => {
     // success
+    let competition = res.data  
+    competition = competitionMsgChange(competition) 
+    if (fn) {
+      fn(competition)
+    }
+  }, err => {
+    // err
+  })
+}
+function searchCompetitionList(search,fn){
+  let query = new wx.BaaS.Query()
+  // 用于校验pass是否为true
+  query.compare('pass', '=', true)
+  query.contains('title', search)
+  Product.setQuery(query).find().then(res => {
+    // success
+    console.log(res.data.objects)
     let competitions = res.data.objects
     for (let i in competitions) {
       competitions[i] = competitionMsgChange(competitions[i])
     }
-    wx.setStorageSync('allCompetitions', competitions)
-    fn()
+    if (fn) {
+      fn(competitions)
+    }
     return competitions
   }, err => {
     // err
@@ -181,5 +199,6 @@ module.exports = {
   updateCompetition: updateCompetition,
   droploadCompetitionList: droploadCompetitionList,
   droploadtypeList: droploadtypeList,
-  getAllCompetitionList: getAllCompetitionList
+  getSwiperActivity: getSwiperActivity,
+  searchCompetitionList: searchCompetitionList
 }

@@ -8,6 +8,8 @@
 .poster{
   flex: 1;
   padding-left: 20rpx;
+  height: 180rpx;
+  overflow: hidden;
 }
 .data{
   flex: 3

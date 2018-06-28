@@ -1,5 +1,5 @@
 // pages/home/home.js
-import { getCompetitionList, droploadCompetitionList, getAllCompetitionList } from '../../utils/api/competition.js'
+import { getCompetitionList, droploadCompetitionList, getSwiperActivity, selectCompetitionList } from '../../utils/api/competition.js'
 import { getSwiperUrlsList } from '../../utils/api/swiperUrls.js'
 let offset = 0
 var app = getApp();
@@ -32,14 +32,12 @@ Page({
    */
   onLoad: function (options) {
     wx.showLoading({
-      title: '奋力加载中'
+      title: 'Loading...'
     })
     wx.showShareMenu();
     this.getCompetitionList()
     this.getSwiperUrlsList()
-    getAllCompetitionList((() => {
-      wx.hideLoading()
-    }))
+    wx.hideLoading()
     // 获取所有表演
     offset = 0
   },
@@ -82,7 +80,7 @@ Page({
   // 分享当前页
   onShareAppMessage: (res) => {
     return {
-      title: 'Join',
+      title: '课外活动',
       desc: '校园活动，一键报名！',
       path: '/pages/home/home',
       success: (res) => {
@@ -145,5 +143,16 @@ Page({
         swiperUrls: swiperUrls
       })
     }
-  }
+  },
+  swiperActivity(e) {
+    let competitionId = e.currentTarget.dataset.competitionid
+    console.log(e.currentTarget.dataset)
+    getSwiperActivity(competitionId, (competition) => {
+      competition = JSON.stringify(competition);
+      wx.navigateTo({
+        url: '../activity/activity?competition=' + competition,
+      })
+    })
+  },
+  
 })

@@ -14,7 +14,7 @@ Page({
     psaletime_time: '',
     pstartdate: '',
     pdeadline: '',
-    type: 2
+    type: ''
   },
 
   /**
@@ -27,6 +27,7 @@ Page({
       choose: options.type
     })
     if(this.data.choose === 'activity'){
+      
       let data = JSON.parse(options.activity)
       let pstartdate = data.startDate
       let pdeadline = data.deadline

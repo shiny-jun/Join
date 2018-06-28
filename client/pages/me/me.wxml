@@ -19,10 +19,10 @@
     </view>
   </view>
   <view class='hr'></view>
-  <item bindtap='changeMessage' name='报名信息' img='../../images/icon/default.png' />
+  <item bindtap='changeMessage' name='用户信息' img='../../images/icon/default.png' />
   <view class='hr'></view>
   <item bindtap='goJoined' id='0' name='已参与比赛' img='../../images/icon/activity_me.png' />
-  <item bindtap='goJoined' id='1' name='已表演门票' img='../../images/icon/ticket_me.png' />
+  <item bindtap='goJoined' id='1' name='已获取门票' img='../../images/icon/ticket_me.png' />
   <item bindtap='goLove' name='已收藏比赛/表演' img='../../images/icon/love_0.png' />
   <view class='hr'></view>
   <item wx:if="{{!identify}}" bindtap='identify' name='活动发布者身份认证'img='../../images/icon/authentic_me.png' />

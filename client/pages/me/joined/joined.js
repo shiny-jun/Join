@@ -29,14 +29,26 @@ Page({
       })
     }
     getJoinedCompetitionList((joinedCompetitions) => {
-      this.setData({
-        joinedCompetitions: joinedCompetitions
-      })
+      if (joinedCompetitions) {
+        this.setData({
+          joinedCompetitions: joinedCompetitions
+        })
+      } else {
+        this.setData({
+          showCompetitionsNull: true
+        })
+      }
     })
     getJoinedShowList((joinedShows) => {
-      this.setData({
-        joinedShows: joinedShows
-      })
+      if (joinedShows) {
+        this.setData({
+          joinedShows: joinedShows
+        })
+      } else {
+        this.setData({
+          showShowsNull: true
+        })
+      }
     })
   },
   onShow: function () {

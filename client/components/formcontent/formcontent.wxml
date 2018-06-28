@@ -9,19 +9,19 @@
   <view class='item'>
     <view class='itemTitle'>学号</view>
     <view class='mas'>
-      <input type='text' placeholder='请输入学号' placeholder-class="holder" name="stuNum" value='{{student.stuNum}}'></input>
+      <input type="number" placeholder='请输入学号' placeholder-class="holder" name="stuNum" value='{{student.stuNum}}'></input>
     </view>
   </view>
   <view class='item'>
     <view class='itemTitle'>班号</view>
     <view class='mas'>
-      <input type="text" placeholder="请输入班级编号" placeholder-class="holder" name="classNum" value='{{student.classNum}}'></input>
+      <input type="number" placeholder="请输入班级编号" placeholder-class="holder" name="classNum" value='{{student.classNum}}'></input>
     </view>
   </view>
   <view class='item'>
     <view class='itemTitle'>手机号码</view>
     <view class='mas'>
-      <input type="text" placeholder="请输入联系电话" placeholder-class="holder" name="phoneNum" value='{{student.phoneNum}}'></input>
+      <input type="number" placeholder="请输入联系电话" placeholder-class="holder" name="phoneNum" value='{{student.phoneNum}}'></input>
     </view>
   </view>
   <view class='item'>
